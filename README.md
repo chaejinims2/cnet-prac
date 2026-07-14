@@ -1,4 +1,28 @@
-# 실습 후보
+# cnet-prac: C++ Simulation for MAC Scheduler Study
+
+A personal repository to experiment with TTI-level downlink scheduling concepts like PF, QoS, load balancing, and trace replays.
+
+Currently, labs `01` through `13` are fully scaffolded, with each folder containing a `실습가이드.md`, `main.cpp`, and a `build_run.sh` script. The KPI comparison tables below currently cover labs **`01` to `05`**. For labs `06` through `13`, please check the local `result.csv` or `output.txt` generated after running the simulation.
+
+## Lab index
+
+| Lab | Topic | Done | Date |
+|-----|--------|:----:|------|
+| 01 | PF, single UE per TTI, buffer depletion | [x] | 26-07-14 |
+| 02 | RR / Max-CQI / PF compare (Jain, throughput) | [x] | 26-07-14 |
+| 03 | PF metric + multi-UE RB split per TTI | [x] | 26-07-14 |
+| 04 | QoS weight + HOL delay (M-LWDF-like), delay ON vs OFF | [x] | 26-07-14 |
+| 05 | Traffic arrival, queue cap/drop; RR / Max-CQI / PF under load | [x] | 26-07-14 |
+| 06 | Strict priority + GBR floor, then PF | [ ] | |
+| 07 | Weight-only / delay-only / both (extends 04) | [ ] | |
+| 08 | Deficit Round Robin (bytes) under load | [ ] | |
+| 09 | Frequency-domain simplification | [ ] | |
+| 10 | HARQ retx buffer (toy) | [ ] | |
+| 11 | Fronthaul byte budget + delay | [ ] | |
+| 12 | RRM cap vs MAC PF | [ ] | |
+| 13 | Trace player (`trace.csv`) — reproducible KPI | [ ] | |
+
+---
 
 ## 기본
 - Proportional Fair (PF)
@@ -29,7 +53,7 @@
 
 # KPI 요약 (seed=42)
 
-각 폴더 `result.csv` / `output.txt` 기준. 재실행: `cd NN && ./build_run.sh`
+아래 표는 **`01`–`05`** 재실행 결과 요약. `06`–`13`은 실습 진행 후 추가될 예정.
 
 ## 01. PF 단일 스케줄 (버퍼 고갈)
 
