@@ -1,0 +1,2 @@
+scenario,ue0_served,ue1_served,ue2_served,ue0_remain,ue1_remain,ue2_remain,total_bytes,jain_index,tti_multi_ue,description
+PF_multi_RB,8000,8000,8000,0,0,0,24000,1.00,5,한 TTI 다중 UE RB 분할·초기버퍼 8000씩 고갈(seed=42)

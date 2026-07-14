@@ -1,0 +1,2 @@
+algorithm,ue0_in,ue1_in,ue2_in,ue0_out,ue1_out,ue2_out,ue0_drop,ue1_drop,ue2_drop,ue0_q_final,ue1_q_final,ue2_q_final,total_in,total_out,total_drop,jain_index_out,description
+PF_arrival,79716,80077,40467,37200,36550,37636,22829,24177,0,19687,19350,2831,200260,111386,47006,1.00,arrival+PF·무거운 UE0/1 drop·가벼운 UE2 drop=0(seed=42)

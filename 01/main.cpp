@@ -7,10 +7,10 @@
 #include "../include/debug.h"
 
 // 스케줄러 함수: 이번 1ms(TTI)에 어떤 단말에 자원(RB)을 줄지 결정
-void schedule_proportional_fair(std::vector<UE>& ue_list, int tti_ms) {
+void schedule_one_tti(std::vector<UE>& ue_list, int algo, int tti_ms) {
     int remaining_rb = TOTAL_RB;
 
-    int selected_index = pick_pf(ue_list);
+    int selected_index = select_algo(ue_list, algo);
     int allocated_data = 0;
 
     switch (selected_index != -1 ? 1 : 0) {
@@ -70,11 +70,6 @@ int main() {
     enable_ansi_stdout();
     std::srand(RNG_SEED);
 
-    std::vector<UE> ue_list;
-    ue_list.push_back(make_ue(0, 5000, 12));
-    ue_list.push_back(make_ue(1, 5000, 4));
-    ue_list.push_back(make_ue(2, 1000, 15));
-
     std::cout << std::fixed << std::setprecision(2);
     std::cout << "TTI(ms)" << "\t" << "UE(id)" << "\t" << "Data(Bytes)"
               << "\t" << "avg_R0(cqi)" << "\t" << "avg_R1(cqi)" << "\t" << "avg_R2(cqi)"
@@ -82,10 +77,19 @@ int main() {
     std::cout << "-------------------------------------------------" << std::endl;
 
     int tti = 1;
-    while (tti <= 100) {
-        fade_cqi(ue_list);
-        schedule_proportional_fair(ue_list, tti);
-        tti = tti + 1;
+    int algo = ALGO_PF;
+    while (algo < ALGO_KIND_COUNT) {
+
+        std::vector<UE> ue_list;
+        ue_list.push_back(make_ue(0, 5000, 12));
+        ue_list.push_back(make_ue(1, 5000, 4));
+        ue_list.push_back(make_ue(2, 1000, 15));
+        while (tti <= 100) {
+            fade_cqi(ue_list);
+            schedule_one_tti(ue_list, algo, tti);
+            tti = tti + 1;
+        }
+        algo = algo + 1;
     }
 
     return 0;

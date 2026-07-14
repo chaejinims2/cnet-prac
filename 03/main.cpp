@@ -5,33 +5,16 @@
 #include <vector>
 
 #include "../include/cnet-prac.h"
+#include "../include/debug.h"
 
 static const int TTI_COUNT = 50;
-
-struct Candidate {
-    int idx;
-    double metric;
-};
-
-static std::vector<UE> g_ue_list;
-
-void init() {
-    g_ue_list.clear();
-    g_ue_list.push_back(make_ue(0, 8000, 12));
-    g_ue_list.push_back(make_ue(1, 8000, 4));
-    g_ue_list.push_back(make_ue(2, 8000, 15));
-    std::srand(RNG_SEED);
-}
-
-void input() {
-}
 
 static bool metric_greater(const Candidate& a, const Candidate& b) {
     return a.metric > b.metric;
 }
 
 // [실습] 핵심: remaining_rb 를 여러 UE에 나눠 주기
-static void allocate_rbs_multi(std::vector<UE>& ue_list) {
+void allocate_rbs_multi(std::vector<UE>& ue_list) {
     size_t i = 0;
     while (i < ue_list.size()) {
         ue_list[i].allocated_this_tti = 0;
@@ -45,6 +28,11 @@ static void allocate_rbs_multi(std::vector<UE>& ue_list) {
             case 1: {
                 Candidate c;
                 c.idx = static_cast<int>(i);
+                /*
+                pf_metric
+                c.metric = static_cast<double>(ue_list[i].cqi) * static_cast<double>(BYTES_PER_RB)
+                           / (ue_list[i].avg_rate + AVG_RATE_BIAS);
+                */
                 c.metric = pf_metric(ue_list[i]);
                 cands.push_back(c);
                 break;
@@ -98,7 +86,7 @@ static void allocate_rbs_multi(std::vector<UE>& ue_list) {
     }
 }
 
-static void schedule_one_tti(std::vector<UE>& ue_list, int tti_ms) {
+void schedule_one_tti(std::vector<UE>& ue_list, int tti_ms) {
     allocate_rbs_multi(ue_list);
     update_avg_rates_multi(ue_list);
 
@@ -112,34 +100,34 @@ static void schedule_one_tti(std::vector<UE>& ue_list, int tti_ms) {
     std::cout << std::endl;
 }
 
-void run() {
+int main() {
+    enable_ansi_stdout();
+    std::srand(RNG_SEED);
+
     std::cout << std::fixed << std::setprecision(2);
     std::cout << "# multi-UE RB split per TTI, seed=" << RNG_SEED << std::endl;
     std::cout << "TTI\tallocations..." << std::endl;
 
+    std::vector<UE> ue_list;
+    ue_list.push_back(make_ue(0, 8000, 12));
+    ue_list.push_back(make_ue(1, 8000, 4));
+    ue_list.push_back(make_ue(2, 8000, 15));
+
     int tti = 1;
     while (tti <= TTI_COUNT) {
-        fade_cqi(g_ue_list);
-        schedule_one_tti(g_ue_list, tti);
+        fade_cqi(ue_list);
+        schedule_one_tti(ue_list, tti);
         tti = tti + 1;
     }
-}
 
-void solution() {
     std::cout << "-------------------------------------------------" << std::endl;
     size_t i = 0;
-    while (i < g_ue_list.size()) {
-        const UE& ue = g_ue_list[i];
+    while (i < ue_list.size()) {
+        const UE& ue = ue_list[i];
         std::cout << "UE" << ue.id << " served=" << ue.served_bytes
                   << " remain=" << ue.buffer_size << std::endl;
         i = i + 1;
     }
-}
 
-int main() {
-    init();
-    input();
-    run();
-    solution();
     return 0;
 }

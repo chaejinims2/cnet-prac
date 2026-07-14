@@ -14,6 +14,29 @@ static const double AVG_RATE_BIAS = 20.0;
 static const double IIR_KEEP = 0.85;
 static const double IIR_NEW = 0.15;
 
+// (Linux sched.h 의 SCHED_RR 등과 이름 충돌을 피하기 위해 ALGO_ 접두사)
+enum AlgoKind {
+    ALGO_RR = 0,
+    ALGO_MAX_CQI = 1,
+    ALGO_PF = 2
+};
+
+enum { ALGO_KIND_COUNT = 3 };
+
+inline const char* algo_name(int algo) {
+    switch (algo) {
+        case ALGO_RR:
+            return "RR";
+        case ALGO_MAX_CQI:
+            return "Max-CQI";
+        case ALGO_PF:
+            return "PF";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+
 // UE: 실습별 확장 필드를 한 구조체에 모음 (안 쓰는 필드는 0 유지)
 struct UE {
     int id;
@@ -29,6 +52,11 @@ struct UE {
     long long arrived_bytes;
     long long dropped_bytes;
     int arrival_mean;
+};
+
+struct Candidate {
+    int idx;
+    double metric;
 };
 
 inline UE make_ue(int id, int buffer_size, int cqi) {
@@ -137,6 +165,62 @@ inline int pick_pf(const std::vector<UE>& ue_list) {
     }
     return selected;
 }
+
+// Round-Robin: rr_cursor 는 호출측이 보관 (알고리즘 리셋 시 0으로)
+inline int pick_rr(const std::vector<UE>& ue_list, int& rr_cursor) {
+    const int n = static_cast<int>(ue_list.size());
+    int i = 0;
+    while (i < n) {
+        const int idx = (rr_cursor + i) % n;
+        switch (ue_list[static_cast<size_t>(idx)].buffer_size > 0 ? 1 : 0) {
+            case 1:
+                rr_cursor = (idx + 1) % n;
+                return idx;
+            default:
+                break;
+        }
+        i = i + 1;
+    }
+    return -1;
+}
+
+inline int pick_max_cqi(const std::vector<UE>& ue_list) {
+    int selected = -1;
+    int best_cqi = -1;
+    size_t i = 0;
+    while (i < ue_list.size()) {
+        const UE& ue = ue_list[i];
+        switch (ue.buffer_size > 0 ? 1 : 0) {
+            case 1:
+                switch (ue.cqi > best_cqi ? 1 : 0) {
+                    case 1:
+                        best_cqi = ue.cqi;
+                        selected = static_cast<int>(i);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+        i = i + 1;
+    }
+    return selected;
+}
+
+inline int select_algo(const std::vector<UE>& ue_list, int algo) {
+    switch (algo) {
+        case ALGO_MAX_CQI:
+            return pick_max_cqi(ue_list);
+        case ALGO_PF:
+            return pick_pf(ue_list);
+        default:
+            return -1;
+    }
+}
+
+
 
 inline double jain_index(const std::vector<UE>& ue_list) {
     double sum = 0.0;

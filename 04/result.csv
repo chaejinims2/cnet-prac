@@ -1,0 +1,2 @@
+algorithm,ue0_class,ue1_class,ue2_class,ue0_served,ue1_served,ue2_served,ue0_miss,ue1_miss,ue2_miss,ue0_remain,ue1_remain,ue2_remain,total_bytes,jain_index,description
+QoS_delay_PF,GBR,Non-GBR,GBR,6000,6000,6000,0,0,0,0,0,0,18000,1.00,가중치·HOL delay PF·served 균등·deadline miss 없음(seed=42)
