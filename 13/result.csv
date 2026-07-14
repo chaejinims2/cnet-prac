@@ -1,0 +1,2 @@
+scenario,total_in,total_out,jain_index,trace_rows,description
+trace_PF,34205,23105,0.98,50,CQI+arrival CSV replay no rand

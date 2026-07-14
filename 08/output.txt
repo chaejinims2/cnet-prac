@@ -1,0 +1,18 @@
+# DRR vs PF under arrival load, seed=42
+
+=== DRR ===
+UE0 out=26700 drop=33329 q=19687
+UE1 out=26300 drop=33777 q=20000
+UE2 out=26300 drop=0 q=14167
+TOTAL out=79300 drop=67106 jain=1.00
+
+=== PF ===
+UE0 out=37200 drop=22829 q=19687
+UE1 out=36550 drop=24177 q=19350
+UE2 out=37636 drop=0 q=2831
+TOTAL out=111386 drop=47006 jain=1.00
+
+-------------------------------------------------
+mode	total_out	total_drop	jain_out	ue0_out	ue1_out	ue2_out
+DRR	79300	67106	1.00	26700	26300	26300
+PF	111386	47006	1.00	37200	36550	37636

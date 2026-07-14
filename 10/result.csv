@@ -1,0 +1,3 @@
+mode,total_retx,harq_sched,max_q_sum,total_served,description
+harq_ON,2450,71,17400,18550,HARQ retx queue pressure
+harq_OFF,0,0,17400,18000,no HARQ baseline

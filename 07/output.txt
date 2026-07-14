@@ -1,0 +1,22 @@
+# Weighted PF / M-LWDF / both compare, seed=42
+
+=== weight_only ===
+UE0 served=6000 picks=11
+UE1 served=6000 picks=15
+UE2 served=6000 picks=12
+
+=== delay_only ===
+UE0 served=6000 picks=12
+UE1 served=6000 picks=13
+UE2 served=6000 picks=12
+
+=== both ===
+UE0 served=6000 picks=12
+UE1 served=6000 picks=13
+UE2 served=6000 picks=13
+
+-------------------------------------------------
+mode	ue0_picks	ue1_picks	ue2_picks	ue1_served
+weight_only	11	15	12	6000
+delay_only	12	13	12	6000
+both	12	13	13	6000

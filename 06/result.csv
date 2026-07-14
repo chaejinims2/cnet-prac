@@ -1,0 +1,3 @@
+mode,ue0_served,ue1_served,ue2_served,ue0_gbr_met,ue2_gbr_met,ue1_picks,description
+GBR_strict,8000,8000,8000,1,1,16,Strict Priority+GBR floor then PF
+PF_only,8000,8000,8000,1,1,14,PF baseline

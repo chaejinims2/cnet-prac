@@ -1,0 +1,3 @@
+mode,ue0_served,ue1_served,ue2_served,total,jain,description
+freq_match,10000,10000,10000,30000,1.00,good/bad RB matching
+flat_PF,10000,10000,10000,30000,1.00,flat PF all RB

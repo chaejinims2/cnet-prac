@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <vector>
 
-// 공통 무선 자원 / PF 파라미터 (실습 01~05)
+// 공통 무선 자원 / PF 파라미터 (실습 01~13)
 enum {
     TOTAL_RB = 100,
     BYTES_PER_RB = 50
@@ -52,6 +52,10 @@ struct UE {
     long long arrived_bytes;
     long long dropped_bytes;
     int arrival_mean;
+    long long gbr_floor;   // 실습 06: 누적 served 목표(바이트), 0이면 미사용
+    int deficit_bytes;     // 실습 08: Deficit RR quantum 잔액
+    int harq_retx_bytes;   // 실습 10: HARQ 재전송 대기
+    int max_bytes_per_tti; // 실습 12: RRM 상위 cap (0=무제한)
 };
 
 struct Candidate {
@@ -74,6 +78,10 @@ inline UE make_ue(int id, int buffer_size, int cqi) {
     ue.arrived_bytes = 0;
     ue.dropped_bytes = 0;
     ue.arrival_mean = 0;
+    ue.gbr_floor = 0;
+    ue.deficit_bytes = 0;
+    ue.harq_retx_bytes = 0;
+    ue.max_bytes_per_tti = 0;
     return ue;
 }
 

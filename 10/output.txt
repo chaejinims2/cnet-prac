@@ -1,0 +1,12 @@
+# HARQ retx buffer pressure, seed=42
+
+=== harq_ON ===
+total_retx=2450 harq_sched=71 max_q0=6000
+
+=== harq_OFF ===
+total_retx=0 max_q0=6000
+
+-------------------------------------------------
+mode	total_retx	harq_sched	max_q_sum	total_served
+harq_ON	2450	71	17400	18550
+harq_OFF	0	0	17400	18000

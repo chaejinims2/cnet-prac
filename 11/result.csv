@@ -1,0 +1,3 @@
+mode,total_served,clipped_tti,penalty_avg,description
+budget_ON,36000,62,108,fronthaul byte cap
+budget_OFF,36000,0,0,no fronthaul cap

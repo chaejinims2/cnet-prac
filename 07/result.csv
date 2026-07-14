@@ -1,0 +1,4 @@
+mode,ue0_picks,ue1_picks,ue2_picks,ue1_served,description
+weight_only,11,15,12,6000,Weighted PF only
+delay_only,12,13,12,6000,M-LWDF delay only
+both,12,13,13,6000,weight+delay

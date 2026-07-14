@@ -1,0 +1,11 @@
+# RRM max bitrate cap + MAC PF, seed=42
+
+=== RRM_cap ===
+UE0=9300 UE1=12400 UE2=11250 jain=0.99
+=== no_cap ===
+UE0=13450 UE1=18050 UE2=14750 jain=0.98
+
+-------------------------------------------------
+mode	ue0_srv	ue1_srv	ue2_srv	total	jain
+RRM_cap	9300	12400	11250	32950	0.99
+no_cap	13450	18050	14750	46250	0.98

@@ -1,0 +1,11 @@
+# fronthaul byte budget=450, seed=42
+
+=== budget_ON ===
+total_served=36000 clipped_tti=62
+=== budget_OFF ===
+total_served=36000
+
+-------------------------------------------------
+mode	total_served	clipped_tti	penalty_avg
+budget_ON	36000	62	108
+budget_OFF	36000	0	0

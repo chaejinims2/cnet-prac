@@ -1,0 +1,16 @@
+# Strict Priority + GBR floor vs PF, seed=42
+
+=== GBR_strict ===
+UE0 served=8000 picks=19 gbr_met=1
+UE1 served=8000 picks=16 gbr_met=-1
+UE2 served=8000 picks=16 gbr_met=1
+
+=== PF_only ===
+UE0 served=8000 picks=15 gbr_met=1
+UE1 served=8000 picks=14 gbr_met=-1
+UE2 served=8000 picks=15 gbr_met=1
+
+-------------------------------------------------
+mode	ue0_srv	ue1_srv	ue2_srv	ue0_gbr	ue2_gbr	ue1_picks
+GBR_strict	8000	8000	8000	1	1	16
+PF_only	8000	8000	8000	1	1	14

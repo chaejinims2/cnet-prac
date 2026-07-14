@@ -1,0 +1,17 @@
+# freq good/bad RB matching vs flat PF, seed=42
+GOOD_RB=60 BAD_RB=40
+
+=== freq_match ===
+UE0 served=10000
+UE1 served=10000
+UE2 served=10000
+
+=== flat_PF ===
+UE0 served=10000
+UE1 served=10000
+UE2 served=10000
+
+-------------------------------------------------
+mode	ue0_srv	ue1_srv	ue2_srv	total	jain
+freq_match	10000	10000	10000	30000	1.00
+flat_PF	10000	10000	10000	30000	1.00

@@ -1,0 +1,3 @@
+mode,total_out,total_drop,jain_out,ue0_out,ue1_out,ue2_out,description
+DRR,79300,67106,1.00,26700,26300,26300,arrival+DRR bytes
+PF,111386,47006,1.00,37200,36550,37636,arrival+PF
