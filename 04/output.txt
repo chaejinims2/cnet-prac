@@ -1,106 +1,17 @@
-# QoS delay-aware PF, seed=42
-TTI	UE	Data	dly0	dly1	dly2
-1	UE2	600	dly1	dly1	dly0
-2	UE0	350	dly0	dly2	dly1
-3	UE2	300	dly1	dly3	dly0
-4	UE1	500	dly2	dly0	dly1
-5	UE0	650	dly0	dly1	dly2
-6	UE2	200	dly1	dly2	dly0
-7	UE2	650	dly2	dly3	dly0
-8	UE0	650	dly0	dly4	dly1
-9	UE1	750	dly1	dly0	dly2
-10	UE2	600	dly2	dly1	dly0
-11	UE0	450	dly0	dly2	dly1
-12	UE2	550	dly1	dly3	dly0
-13	UE0	500	dly0	dly4	dly1
-14	UE2	650	dly1	dly5	dly0
-15	UE1	750	dly2	dly0	dly1
-16	UE0	350	dly0	dly1	dly2
-17	UE2	750	dly1	dly2	dly0
-18	UE0	750	dly0	dly3	dly1
-19	UE1	750	dly1	dly0	dly2
-20	UE2	450	dly2	dly1	dly0
-21	UE0	350	dly0	dly2	dly1
-22	UE0	550	dly0	dly3	dly2
-23	UE2	550	dly1	dly4	dly0
-24	UE1	550	dly2	dly0	dly1
-25	UE0	650	dly0	dly1	dly2
-26	UE2	350	dly1	dly2	dly0
-27	UE0	500	dly0	dly3	dly1
-28	UE2	300	dly1	dly4	dly0
-29	UE0	250	dly0	dly5	dly1
-30	UE1	650	dly0	dly0	dly2
-31	UE2	50	dly0	dly1	dly0
-32	UE1	350	dly0	dly0	dly0
-33	UE1	200	dly0	dly0	dly0
-34	UE1	250	dly0	dly0	dly0
-35	UE1	100	dly0	dly0	dly0
-36	UE1	300	dly0	dly0	dly0
-37	UE1	750	dly0	dly0	dly0
-38	UE1	100	dly0	dly0	dly0
-39	NONE	0	dly0	dly0	dly0
-40	NONE	0	dly0	dly0	dly0
-41	NONE	0	dly0	dly0	dly0
-42	NONE	0	dly0	dly0	dly0
-43	NONE	0	dly0	dly0	dly0
-44	NONE	0	dly0	dly0	dly0
-45	NONE	0	dly0	dly0	dly0
-46	NONE	0	dly0	dly0	dly0
-47	NONE	0	dly0	dly0	dly0
-48	NONE	0	dly0	dly0	dly0
-49	NONE	0	dly0	dly0	dly0
-50	NONE	0	dly0	dly0	dly0
-51	NONE	0	dly0	dly0	dly0
-52	NONE	0	dly0	dly0	dly0
-53	NONE	0	dly0	dly0	dly0
-54	NONE	0	dly0	dly0	dly0
-55	NONE	0	dly0	dly0	dly0
-56	NONE	0	dly0	dly0	dly0
-57	NONE	0	dly0	dly0	dly0
-58	NONE	0	dly0	dly0	dly0
-59	NONE	0	dly0	dly0	dly0
-60	NONE	0	dly0	dly0	dly0
-61	NONE	0	dly0	dly0	dly0
-62	NONE	0	dly0	dly0	dly0
-63	NONE	0	dly0	dly0	dly0
-64	NONE	0	dly0	dly0	dly0
-65	NONE	0	dly0	dly0	dly0
-66	NONE	0	dly0	dly0	dly0
-67	NONE	0	dly0	dly0	dly0
-68	NONE	0	dly0	dly0	dly0
-69	NONE	0	dly0	dly0	dly0
-70	NONE	0	dly0	dly0	dly0
-71	NONE	0	dly0	dly0	dly0
-72	NONE	0	dly0	dly0	dly0
-73	NONE	0	dly0	dly0	dly0
-74	NONE	0	dly0	dly0	dly0
-75	NONE	0	dly0	dly0	dly0
-76	NONE	0	dly0	dly0	dly0
-77	NONE	0	dly0	dly0	dly0
-78	NONE	0	dly0	dly0	dly0
-79	NONE	0	dly0	dly0	dly0
-80	NONE	0	dly0	dly0	dly0
-81	NONE	0	dly0	dly0	dly0
-82	NONE	0	dly0	dly0	dly0
-83	NONE	0	dly0	dly0	dly0
-84	NONE	0	dly0	dly0	dly0
-85	NONE	0	dly0	dly0	dly0
-86	NONE	0	dly0	dly0	dly0
-87	NONE	0	dly0	dly0	dly0
-88	NONE	0	dly0	dly0	dly0
-89	NONE	0	dly0	dly0	dly0
-90	NONE	0	dly0	dly0	dly0
-91	NONE	0	dly0	dly0	dly0
-92	NONE	0	dly0	dly0	dly0
-93	NONE	0	dly0	dly0	dly0
-94	NONE	0	dly0	dly0	dly0
-95	NONE	0	dly0	dly0	dly0
-96	NONE	0	dly0	dly0	dly0
-97	NONE	0	dly0	dly0	dly0
-98	NONE	0	dly0	dly0	dly0
-99	NONE	0	dly0	dly0	dly0
-100	NONE	0	dly0	dly0	dly0
+# QoS delay ON/OFF compare, seed=42, tti=100
+
+=== delay_ON ===
+UE0 [GBR] served=6000 miss=0 picks=12
+UE1 [Non-GBR] served=6000 miss=0 picks=13
+UE2 [GBR] served=6000 miss=0 picks=13
+
+=== delay_OFF ===
+UE0 [GBR] served=6000 miss=0 picks=11
+UE1 [Non-GBR] served=6000 miss=0 picks=15
+UE2 [GBR] served=6000 miss=0 picks=12
+
 -------------------------------------------------
-UE0 [GBR] served=6000 miss=0 remain=0
-UE1 [Non-GBR] served=6000 miss=0 remain=0
-UE2 [GBR] served=6000 miss=0 remain=0
+mode	ue0_srv	ue1_srv	ue2_srv	ue0_miss	ue1_miss	ue2_miss	ue0_picks	ue1_picks	ue2_picks
+delay_ON	6000	6000	6000	0	0	0	12	13	13
+delay_OFF	6000	6000	6000	0	0	0	11	15	12
+compare tip: delay ON → HOL 급한 UE 우선 / OFF → Non-GBR(UE1) picks 변화 관찰

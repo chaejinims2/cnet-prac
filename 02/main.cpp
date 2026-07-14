@@ -6,17 +6,6 @@
 #include "../include/cnet-prac.h"
 #include "../include/debug.h"
 
-void reset_scenario(std::vector<UE>& ue_list, int& rr_cursor) {
-    ue_list.clear();
-    rr_cursor = 0;
-    // 100 TTI 안에 고갈되지 않게 크게 둠 → 알고리즘별 분배 차이가 Jain에 반영됨
-    ue_list.push_back(make_ue(0, 100000, 12));
-    ue_list.push_back(make_ue(1, 100000, 4));
-    ue_list.push_back(make_ue(2, 100000, 15));
-    // 동일 seed → 알고리즘마다 같은 CQI 시퀀스
-    std::srand(RNG_SEED);
-}
-
 int select_algo_custom(const std::vector<UE>& ue_list, int algo, int& rr_cursor) {
     switch (algo) {
         case ALGO_RR:
@@ -89,6 +78,7 @@ int main() {
         ue_list.push_back(make_ue(1, 100000, 4));
         ue_list.push_back(make_ue(2, 100000, 15));
         // 동일 seed → 알고리즘마다 같은 CQI 시퀀스
+        std::srand(RNG_SEED);
 
         int tti = 1;
         while (tti <= 100) {

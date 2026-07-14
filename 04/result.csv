@@ -1,2 +1,3 @@
-algorithm,ue0_class,ue1_class,ue2_class,ue0_served,ue1_served,ue2_served,ue0_miss,ue1_miss,ue2_miss,ue0_remain,ue1_remain,ue2_remain,total_bytes,jain_index,description
-QoS_delay_PF,GBR,Non-GBR,GBR,6000,6000,6000,0,0,0,0,0,0,18000,1.00,가중치·HOL delay PF·served 균등·deadline miss 없음(seed=42)
+algorithm,ue0_class,ue1_class,ue2_class,ue0_served,ue1_served,ue2_served,ue0_miss,ue1_miss,ue2_miss,ue0_picks,ue1_picks,ue2_picks,description
+delay_ON,GBR,Non-GBR,GBR,6000,6000,6000,0,0,0,12,13,13,HOL delay ON
+delay_OFF,GBR,Non-GBR,GBR,6000,6000,6000,0,0,0,11,15,12,HOL delay OFF(weighted-PF)

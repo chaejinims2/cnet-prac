@@ -1,17 +1,26 @@
-# traffic arrival + PF, seed=42
-TTI	UE	Data	queue_snapshot
-20	UE1	500	q0=4017	q1=4311	q2=995
-40	UE2	650	q0=8995	q1=8062	q2=768
-60	UE1	750	q0=13636	q1=11514	q2=1141
-80	UE2	500	q0=17890	q1=16439	q2=1620
-100	UE0	500	q0=19275	q1=20000	q2=992
-120	UE0	650	q0=19350	q1=20000	q2=1826
-140	UE0	600	q0=19241	q1=20000	q2=1663
-160	UE2	500	q0=20000	q1=20000	q2=867
-180	UE1	650	q0=19704	q1=19350	q2=2272
-200	UE1	650	q0=19687	q1=19350	q2=2831
--------------------------------------------------
+# traffic arrival load compare RR/Max-CQI/PF, seed=42, tti=200
+
+=== RR ===
+UE0 in=79716 out=24650 drop=35379 q=19687
+UE1 in=80077 out=26750 drop=33977 q=19350
+UE2 in=40467 out=27050 drop=0 q=13417
+TOTAL in=200260 out=78450 drop=69356 jain_out=1.00
+
+=== Max-CQI ===
+UE0 in=79716 out=37950 drop=22079 q=19687
+UE1 in=80077 out=40722 drop=20386 q=18969
+UE2 in=40467 out=37900 drop=0 q=2567
+TOTAL in=200260 out=116572 drop=42465 jain_out=1.00
+
+=== PF ===
 UE0 in=79716 out=37200 drop=22829 q=19687
 UE1 in=80077 out=36550 drop=24177 q=19350
 UE2 in=40467 out=37636 drop=0 q=2831
-TOTAL in=200260 out=111386 drop=47006
+TOTAL in=200260 out=111386 drop=47006 jain_out=1.00
+
+-------------------------------------------------
+algo	total_in	total_out	total_drop	jain_out	ue0_drop	ue1_drop	ue2_drop
+RR	200260	78450	69356	1.00	35379	33977	0
+Max-CQI	200260	116572	42465	1.00	22079	20386	0
+PF	200260	111386	47006	1.00	22829	24177	0
+compare tip: load↑ 시 RR은 out↓·drop↑, Max-CQI는 thruput↑, PF는 중간
