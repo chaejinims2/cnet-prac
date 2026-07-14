@@ -1,0 +1,4 @@
+algorithm,ue0_served,ue1_served,ue2_served,ue0_remain,ue1_remain,ue2_remain,total_bytes,jain_index,description
+RR,11600,15100,13550,88400,84900,86450,40250,0.99,균등
+Max-CQI,14850,25600,20400,85150,74400,79600,60850,0.96,한 UE만 독점
+PF,16400,22050,19000,83600,77950,81000,57450,0.99,중간~높음

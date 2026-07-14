@@ -11,3 +11,7 @@ RB,Resource Block,무선 자원,
 ,IIR,Infinite Impulse Response,1~0
 ,IIR_KEEP,IIR 필터 상수,1~0
 ,IIR_NEW,IIR 필터 상수,1~0
+
+
+,throughput,총 전송량/시간 얼마나 많이 돌렸나(효율성),bytes/s
+,jain_fairness,공평성 얼마나 고르게 나눴나(공정성),0~1
