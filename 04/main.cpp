@@ -3,33 +3,18 @@
 #include <iostream>
 #include <vector>
 
+#include "../include/cnet-prac.h"
+
 enum QosClass {
     QOS_NON_GBR = 0,
     QOS_GBR = 1
 };
 
-static const unsigned int RNG_SEED = 42;
-static const int TOTAL_RB = 100;
-static const int BYTES_PER_RB = 50;
 static const int TTI_COUNT = 100;
-static const double AVG_RATE_BIAS = 20.0;
-static const double IIR_KEEP = 0.85;
-static const double IIR_NEW = 0.15;
 
 // [실습] GBR / Non-GBR 가중치 튜닝
 static const double WEIGHT_NON_GBR = 1.0;
 static const double WEIGHT_GBR = 5.0;
-
-struct UE {
-    int id;
-    int buffer_size;
-    int cqi;
-    double avg_rate;
-    long long served_bytes;
-    int hol_delay_ms;
-    int qos_class;
-    int deadline_miss;
-};
 
 static std::vector<UE> g_ue_list;
 
@@ -47,40 +32,16 @@ static double qos_weight_of(int qos_class) {
 void init() {
     g_ue_list.clear();
 
-    UE u0;
-    u0.id = 0;
-    u0.buffer_size = 6000;
-    u0.cqi = 10;
-    u0.avg_rate = 0.0;
-    u0.served_bytes = 0;
-    u0.hol_delay_ms = 0;
+    UE u0 = make_ue(0, 6000, 10);
     u0.qos_class = QOS_GBR;
-    u0.deadline_miss = 0;
-
-    UE u1;
-    u1.id = 1;
-    u1.buffer_size = 6000;
-    u1.cqi = 10;
-    u1.avg_rate = 0.0;
-    u1.served_bytes = 0;
-    u1.hol_delay_ms = 0;
+    UE u1 = make_ue(1, 6000, 10);
     u1.qos_class = QOS_NON_GBR;
-    u1.deadline_miss = 0;
-
-    UE u2;
-    u2.id = 2;
-    u2.buffer_size = 6000;
-    u2.cqi = 10;
-    u2.avg_rate = 0.0;
-    u2.served_bytes = 0;
-    u2.hol_delay_ms = 0;
+    UE u2 = make_ue(2, 6000, 10);
     u2.qos_class = QOS_GBR;
-    u2.deadline_miss = 0;
 
     g_ue_list.push_back(u0);
     g_ue_list.push_back(u1);
     g_ue_list.push_back(u2);
-
     std::srand(RNG_SEED);
 }
 
@@ -88,8 +49,7 @@ void input() {
 }
 
 static double delay_pf_metric(const UE& ue) {
-    const double inst = static_cast<double>(ue.cqi) * static_cast<double>(BYTES_PER_RB);
-    const double pf = inst / (ue.avg_rate + AVG_RATE_BIAS);
+    const double pf = pf_metric(ue);
     const double w = qos_weight_of(ue.qos_class);
     // [실습] hol_delay_ms 항을 제거하면 순수 weighted-PF가 된다
     return w * static_cast<double>(ue.hol_delay_ms + 1) * pf;
@@ -122,26 +82,6 @@ static int pick_ue(const std::vector<UE>& ue_list) {
     return selected;
 }
 
-static int allocate_bytes(UE& ue) {
-    int allocated = ue.cqi * BYTES_PER_RB;
-    const int rb_budget_bytes = TOTAL_RB * BYTES_PER_RB;
-    switch (allocated > rb_budget_bytes ? 1 : 0) {
-        case 1:
-            allocated = rb_budget_bytes;
-            break;
-        default:
-            break;
-    }
-    switch (allocated > ue.buffer_size ? 1 : 0) {
-        case 1:
-            allocated = ue.buffer_size;
-            break;
-        default:
-            break;
-    }
-    return allocated;
-}
-
 static void age_delays(std::vector<UE>& ue_list, int selected) {
     size_t i = 0;
     while (i < ue_list.size()) {
@@ -150,12 +90,10 @@ static void age_delays(std::vector<UE>& ue_list, int selected) {
             case 1:
                 switch (static_cast<int>(i) == selected ? 1 : 0) {
                     case 1:
-                        // 서비스 받으면 HOL 리셋(간단 모델)
                         ue.hol_delay_ms = 0;
                         break;
                     default:
                         ue.hol_delay_ms = ue.hol_delay_ms + 1;
-                        // [실습] deadline=20ms 가정. 초과 시 miss 카운트
                         switch (ue.hol_delay_ms > 20 ? 1 : 0) {
                             case 1:
                                 ue.deadline_miss = ue.deadline_miss + 1;
@@ -170,30 +108,6 @@ static void age_delays(std::vector<UE>& ue_list, int selected) {
                 ue.hol_delay_ms = 0;
                 break;
         }
-        i = i + 1;
-    }
-}
-
-static void update_avg_rates(std::vector<UE>& ue_list, int selected, int allocated) {
-    size_t i = 0;
-    while (i < ue_list.size()) {
-        UE& ue = ue_list[i];
-        switch (static_cast<int>(i) == selected ? 1 : 0) {
-            case 1:
-                ue.avg_rate = IIR_KEEP * ue.avg_rate + IIR_NEW * static_cast<double>(allocated);
-                break;
-            default:
-                ue.avg_rate = IIR_KEEP * ue.avg_rate;
-                break;
-        }
-        i = i + 1;
-    }
-}
-
-static void fade_cqi(std::vector<UE>& ue_list) {
-    size_t i = 0;
-    while (i < ue_list.size()) {
-        ue_list[i].cqi = (std::rand() % 15) + 1;
         i = i + 1;
     }
 }
