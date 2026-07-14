@@ -1,0 +1,13 @@
+group,term,description,unit
+UE,User Equipment,사용자 단말,
+,buffer_size,코어망에서 내려와 기지국 큐에 쌓인 양,bytes
+,channel_quality_indicator,"무선 신호 채널 품질, 전송량을 수치로 표현, 전송량이 낮을 수록 전파 최악",1~15
+,algorithm_weight,PF 알고리즘용 가중치,
+,average_rate,"지금까지 누적된 평균 전송 속도, 공평성 계산용",
+RB,Resource Block,무선 자원,
+,total_rb_per_tti,TTI(1ms) 당 나누어줄 수 있는 총 주파수 자원량,
+,byte_per_rb,RB 당 전송가능한 데이터 양,
+,average_rate_bias,"PF: inst·avg_rate를 같은 Bytes/TTI 스케일로 맞추고, 분모에 bias를 두어 공정성 항이 CQI에 묻히지 않게 함",
+,IIR,Infinite Impulse Response,1~0
+,IIR_KEEP,IIR 필터 상수,1~0
+,IIR_NEW,IIR 필터 상수,1~0
