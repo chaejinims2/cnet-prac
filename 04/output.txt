@@ -1,17 +1,17 @@
-# QoS delay ON/OFF compare, seed=42, tti=100
-
-=== delay_ON ===
-UE0 [GBR] served=6000 miss=0 picks=12
-UE1 [Non-GBR] served=6000 miss=0 picks=13
-UE2 [GBR] served=6000 miss=0 picks=13
-
-=== delay_OFF ===
-UE0 [GBR] served=6000 miss=0 picks=11
-UE1 [Non-GBR] served=6000 miss=0 picks=15
-UE2 [GBR] served=6000 miss=0 picks=12
-
--------------------------------------------------
-mode	ue0_srv	ue1_srv	ue2_srv	ue0_miss	ue1_miss	ue2_miss	ue0_picks	ue1_picks	ue2_picks
-delay_ON	6000	6000	6000	0	0	0	12	13	13
-delay_OFF	6000	6000	6000	0	0	0	11	15	12
-compare tip: delay ON → HOL 급한 UE 우선 / OFF → Non-GBR(UE1) picks 변화 관찰
+# QoS delay ON/OFF compare, seed=42, tti=100
+
+=== delay_ON ===
+UE0 [GBR] served=6000 miss=0 picks=12
+UE1 [Non-GBR] served=6000 miss=0 picks=15
+UE2 [GBR] served=6000 miss=0 picks=12
+
+=== delay_OFF ===
+UE0 [GBR] served=6000 miss=0 picks=11
+UE1 [Non-GBR] served=6000 miss=0 picks=16
+UE2 [GBR] served=6000 miss=0 picks=12
+
+-------------------------------------------------
+mode	ue0_srv	ue1_srv	ue2_srv	ue0_miss	ue1_miss	ue2_miss	ue0_picks	ue1_picks	ue2_picks
+delay_ON	6000	6000	6000	0	0	0	12	15	12
+delay_OFF	6000	6000	6000	0	0	0	11	16	12
+compare tip: delay ON → HOL 급한 UE 우선 / OFF → Non-GBR(UE1) picks 변화 관찰

@@ -1,28 +1,28 @@
-# compare RR / Max-CQI / PF, seed=42, tti=100
-
-=== RR ===
-UE	served_bytes	remain_buffer
-0	11600	88400
-1	15100	84900
-2	13550	86450
-total_bytes	40250
-jain_index	0.99
-
-=== Max-CQI ===
-UE	served_bytes	remain_buffer
-0	14850	85150
-1	25600	74400
-2	20400	79600
-total_bytes	60850
-jain_index	0.96
-
-=== PF ===
-UE	served_bytes	remain_buffer
-0	16400	83600
-1	22050	77950
-2	19000	81000
-total_bytes	57450
-jain_index	0.99
-
--------------------------------------------------
-compare tip: Max-CQI thruput↑ fairness↓ / RR opposite / PF middle
+# compare RR / Max-CQI / PF, seed=42, tti=100
+
+=== RR ===
+UE	served_bytes	remain_buffer
+0	14150	85850
+1	13400	86600
+2	14000	86000
+total_bytes	41550
+jain_index	1.00
+
+=== Max-CQI ===
+UE	served_bytes	remain_buffer
+0	22750	77250
+1	14750	85250
+2	20250	79750
+total_bytes	57750
+jain_index	0.97
+
+=== PF ===
+UE	served_bytes	remain_buffer
+0	18350	81650
+1	18300	81700
+2	17750	82250
+total_bytes	54400
+jain_index	1.00
+
+-------------------------------------------------
+compare tip: Max-CQI thruput↑ fairness↓ / RR opposite / PF middle

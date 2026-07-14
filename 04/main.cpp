@@ -13,7 +13,6 @@ enum QosClass {
 
 static const int TTI_COUNT = 100;
 
-// [실습] GBR / Non-GBR 가중치 튜닝
 static const double WEIGHT_NON_GBR = 1.0;
 static const double WEIGHT_GBR = 5.0;
 
@@ -22,12 +21,6 @@ struct ModeResult {
     int miss[3];
     int picks[3];
 };
-
-static std::vector<UE> g_ue_list;
-static int g_use_delay = 1;
-static int g_pick_count[3];
-static ModeResult g_res_on;
-static ModeResult g_res_off;
 
 static double qos_weight_of(int qos_class) {
     switch (qos_class) {
@@ -40,34 +33,24 @@ static double qos_weight_of(int qos_class) {
     }
 }
 
-void init() {
-    g_ue_list.clear();
-
+static std::vector<UE> make_ue_list() {
+    std::vector<UE> ue_list;
     UE u0 = make_ue(0, 6000, 10);
     u0.qos_class = QOS_GBR;
     UE u1 = make_ue(1, 6000, 10);
     u1.qos_class = QOS_NON_GBR;
     UE u2 = make_ue(2, 6000, 10);
     u2.qos_class = QOS_GBR;
-
-    g_ue_list.push_back(u0);
-    g_ue_list.push_back(u1);
-    g_ue_list.push_back(u2);
-
-    g_pick_count[0] = 0;
-    g_pick_count[1] = 0;
-    g_pick_count[2] = 0;
-    std::srand(RNG_SEED);
+    ue_list.push_back(u0);
+    ue_list.push_back(u1);
+    ue_list.push_back(u2);
+    return ue_list;
 }
 
-void input() {
-}
-
-static double delay_pf_metric(const UE& ue) {
+static double delay_pf_metric(const UE& ue, int use_delay) {
     const double pf = pf_metric(ue);
     const double w = qos_weight_of(ue.qos_class);
-    // [실습] delay OFF 이면 hol 항 제거 → 순수 weighted-PF
-    switch (g_use_delay) {
+    switch (use_delay) {
         case 1:
             return w * static_cast<double>(ue.hol_delay_ms + 1) * pf;
         default:
@@ -75,7 +58,7 @@ static double delay_pf_metric(const UE& ue) {
     }
 }
 
-static int pick_ue(const std::vector<UE>& ue_list) {
+static int pick_ue(const std::vector<UE>& ue_list, int use_delay) {
     int selected = -1;
     double best = -1.0;
     size_t i = 0;
@@ -83,7 +66,7 @@ static int pick_ue(const std::vector<UE>& ue_list) {
         const UE& ue = ue_list[i];
         switch (ue.buffer_size > 0 ? 1 : 0) {
             case 1: {
-                const double m = delay_pf_metric(ue);
+                const double m = delay_pf_metric(ue, use_delay);
                 switch (m > best ? 1 : 0) {
                     case 1:
                         best = m;
@@ -132,8 +115,8 @@ static void age_delays(std::vector<UE>& ue_list, int selected) {
     }
 }
 
-static void schedule_one_tti(std::vector<UE>& ue_list) {
-    const int selected = pick_ue(ue_list);
+static void schedule_one_tti(std::vector<UE>& ue_list, int use_delay, int pick_count[3]) {
+    const int selected = pick_ue(ue_list, use_delay);
     switch (selected >= 0 ? 1 : 0) {
         case 1: {
             UE& ue = ue_list[static_cast<size_t>(selected)];
@@ -141,7 +124,7 @@ static void schedule_one_tti(std::vector<UE>& ue_list) {
             ue.buffer_size = ue.buffer_size - allocated;
             ue.served_bytes = ue.served_bytes + allocated;
             update_avg_rates(ue_list, selected, allocated);
-            g_pick_count[selected] = g_pick_count[selected] + 1;
+            pick_count[selected] = pick_count[selected] + 1;
             break;
         }
         default:
@@ -160,22 +143,24 @@ static const char* mode_name(int use_delay) {
     }
 }
 
-static void save_result(ModeResult& out) {
+static void fill_result(const std::vector<UE>& ue_list, const int pick_count[3],
+                        ModeResult& out) {
     size_t i = 0;
-    while (i < g_ue_list.size()) {
-        out.served[i] = g_ue_list[i].served_bytes;
-        out.miss[i] = g_ue_list[i].deadline_miss;
-        out.picks[i] = g_pick_count[i];
+    while (i < ue_list.size()) {
+        out.served[i] = ue_list[i].served_bytes;
+        out.miss[i] = ue_list[i].deadline_miss;
+        out.picks[i] = pick_count[i];
         i = i + 1;
     }
 }
 
-static void print_mode_summary(int use_delay, const ModeResult& r) {
+static void print_mode_summary(int use_delay, const std::vector<UE>& ue_list,
+                             const ModeResult& r) {
     std::cout << "=== " << mode_name(use_delay) << " ===" << std::endl;
     size_t i = 0;
-    while (i < g_ue_list.size()) {
+    while (i < ue_list.size()) {
         const char* qname = "Non-GBR";
-        switch (g_ue_list[i].qos_class) {
+        switch (ue_list[i].qos_class) {
             case QOS_GBR:
                 qname = "GBR";
                 break;
@@ -192,53 +177,49 @@ static void print_mode_summary(int use_delay, const ModeResult& r) {
 }
 
 static void run_one_mode(int use_delay, ModeResult& out) {
-    g_use_delay = use_delay;
-    init();
+    std::vector<UE> ue_list = make_ue_list();
+    int pick_count[3] = {0, 0, 0};
+    std::srand(RNG_SEED);
 
     int tti = 1;
     while (tti <= TTI_COUNT) {
-        fade_cqi(g_ue_list);
-        schedule_one_tti(g_ue_list);
+        fade_cqi(ue_list);
+        schedule_one_tti(ue_list, use_delay, pick_count);
         tti = tti + 1;
     }
 
-    save_result(out);
-    print_mode_summary(use_delay, out);
+    fill_result(ue_list, pick_count, out);
+    print_mode_summary(use_delay, ue_list, out);
 }
 
-void run() {
+int main() {
+    enable_ansi_stdout();
+
+    ModeResult res_on;
+    ModeResult res_off;
+
     std::cout << std::fixed << std::setprecision(2);
     std::cout << "# QoS delay ON/OFF compare, seed=" << RNG_SEED
               << ", tti=" << TTI_COUNT << std::endl;
     std::cout << std::endl;
 
-    run_one_mode(1, g_res_on);
-    run_one_mode(0, g_res_off);
-}
+    run_one_mode(1, res_on);
+    run_one_mode(0, res_off);
 
-void solution() {
     std::cout << "-------------------------------------------------" << std::endl;
     std::cout << "mode\tue0_srv\tue1_srv\tue2_srv\tue0_miss\tue1_miss\tue2_miss"
               << "\tue0_picks\tue1_picks\tue2_picks" << std::endl;
     std::cout << "delay_ON\t"
-              << g_res_on.served[0] << "\t" << g_res_on.served[1] << "\t" << g_res_on.served[2]
-              << "\t" << g_res_on.miss[0] << "\t" << g_res_on.miss[1] << "\t" << g_res_on.miss[2]
-              << "\t" << g_res_on.picks[0] << "\t" << g_res_on.picks[1] << "\t" << g_res_on.picks[2]
+              << res_on.served[0] << "\t" << res_on.served[1] << "\t" << res_on.served[2]
+              << "\t" << res_on.miss[0] << "\t" << res_on.miss[1] << "\t" << res_on.miss[2]
+              << "\t" << res_on.picks[0] << "\t" << res_on.picks[1] << "\t" << res_on.picks[2]
               << std::endl;
     std::cout << "delay_OFF\t"
-              << g_res_off.served[0] << "\t" << g_res_off.served[1] << "\t" << g_res_off.served[2]
-              << "\t" << g_res_off.miss[0] << "\t" << g_res_off.miss[1] << "\t" << g_res_off.miss[2]
-              << "\t" << g_res_off.picks[0] << "\t" << g_res_off.picks[1] << "\t" << g_res_off.picks[2]
+              << res_off.served[0] << "\t" << res_off.served[1] << "\t" << res_off.served[2]
+              << "\t" << res_off.miss[0] << "\t" << res_off.miss[1] << "\t" << res_off.miss[2]
+              << "\t" << res_off.picks[0] << "\t" << res_off.picks[1] << "\t" << res_off.picks[2]
               << std::endl;
     std::cout << "compare tip: delay ON → HOL 급한 UE 우선 / OFF → Non-GBR(UE1) picks 변화 관찰"
               << std::endl;
-}
-
-int main() {
-    enable_ansi_stdout();
-    init();
-    input();
-    run();
-    solution();
     return 0;
 }

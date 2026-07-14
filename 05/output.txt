@@ -1,26 +1,26 @@
-# traffic arrival load compare RR/Max-CQI/PF, seed=42, tti=200
-
-=== RR ===
-UE0 in=79716 out=24650 drop=35379 q=19687
-UE1 in=80077 out=26750 drop=33977 q=19350
-UE2 in=40467 out=27050 drop=0 q=13417
-TOTAL in=200260 out=78450 drop=69356 jain_out=1.00
-
-=== Max-CQI ===
-UE0 in=79716 out=37950 drop=22079 q=19687
-UE1 in=80077 out=40722 drop=20386 q=18969
-UE2 in=40467 out=37900 drop=0 q=2567
-TOTAL in=200260 out=116572 drop=42465 jain_out=1.00
-
-=== PF ===
-UE0 in=79716 out=37200 drop=22829 q=19687
-UE1 in=80077 out=36550 drop=24177 q=19350
-UE2 in=40467 out=37636 drop=0 q=2831
-TOTAL in=200260 out=111386 drop=47006 jain_out=1.00
-
--------------------------------------------------
-algo	total_in	total_out	total_drop	jain_out	ue0_drop	ue1_drop	ue2_drop
-RR	200260	78450	69356	1.00	35379	33977	0
-Max-CQI	200260	116572	42465	1.00	22079	20386	0
-PF	200260	111386	47006	1.00	22829	24177	0
-compare tip: load↑ 시 RR은 out↓·drop↑, Max-CQI는 thruput↑, PF는 중간
+# traffic arrival load compare RR/Max-CQI/PF, seed=42, tti=200
+
+=== RR ===
+UE0 in=79601 out=24025 drop=35576 q=20000
+UE1 in=79435 out=27250 drop=32235 q=19950
+UE2 in=39446 out=24700 drop=0 q=14746
+TOTAL in=198482 out=75975 drop=67811 jain_out=1.00
+
+=== Max-CQI ===
+UE0 in=79601 out=39791 drop=20360 q=19450
+UE1 in=79435 out=38950 drop=20485 q=20000
+UE2 in=39446 out=35982 drop=0 q=3464
+TOTAL in=198482 out=114723 drop=40845 jain_out=1.00
+
+=== PF ===
+UE0 in=79601 out=37425 drop=22726 q=19450
+UE1 in=79435 out=37750 drop=21685 q=20000
+UE2 in=39446 out=36672 drop=0 q=2774
+TOTAL in=198482 out=111847 drop=44411 jain_out=1.00
+
+-------------------------------------------------
+algo	total_in	total_out	total_drop	jain_out	ue0_drop	ue1_drop	ue2_drop
+RR	198482	75975	67811	1.00	35576	32235	0
+Max-CQI	198482	114723	40845	1.00	20360	20485	0
+PF	198482	111847	44411	1.00	22726	21685	0
+compare tip: load↑ 시 RR은 out↓·drop↑, Max-CQI는 thruput↑, PF는 중간
