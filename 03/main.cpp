@@ -59,12 +59,7 @@ static void allocate_rbs_multi(std::vector<UE>& ue_list) {
 
     int remaining_rb = TOTAL_RB;
 
-    /*
-     * TODO(실습):
-     * - metric 높은 후보부터 순회
-     * - 아직 buffer가 있고 remaining_rb > 0 이면 RB 1개 할당
-     * - 한 바퀴 돌아도 RB가 남으면 다시 앞에서부터 반복
-     */
+    // metric 높은 후보부터 RB 1개씩 할당. 한 바퀴 후에도 RB 남으면 반복.
     while (remaining_rb > 0) {
         bool any = false;
         size_t k = 0;
@@ -92,6 +87,7 @@ static void allocate_rbs_multi(std::vector<UE>& ue_list) {
             }
             k = k + 1;
         }
+        // 더 이상 받을 UE가 없으면(전원 버퍼 고갈) 종료
         switch (any ? 1 : 0) {
             case 0:
                 remaining_rb = 0;

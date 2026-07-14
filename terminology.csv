@@ -15,3 +15,14 @@ RB,Resource Block,무선 자원,
 
 ,throughput,총 전송량/시간 얼마나 많이 돌렸나(효율성),bytes/s
 ,jain_fairness,공평성 얼마나 고르게 나눴나(공정성),0~1
+,metric,누구에게 더 많이 주려고 하는지 측정,1~0
+
+
+,qos_weight,QoS 가중치,1~0
+,hol_delay_ms,HOL 지연 시간,ms
+,deadline,deadline,ms
+
+,GBR (Guaranteed Bit Rate)
+,Non-GBR (Non-Guaranteed Bit Rate)
+,HOL delay
+,M-LWDF
