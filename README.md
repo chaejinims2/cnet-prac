@@ -23,8 +23,9 @@ Currently, labs `01` through `13` are fully scaffolded, with each folder contain
 | 13 | Trace player (`trace.csv`) — reproducible KPI | [ ] | |
 
 ---
+# 계획
 
-## 기본
+## PF 기본
 - Proportional Fair (PF)
 - Max-CQI / Max Rate
 - Round-Robin (RR)
